@@ -2,6 +2,7 @@
 const { invoke } = window.__TAURI__.tauri;
 const { open, save } = window.__TAURI__.dialog;
 const { readTextFile, writeTextFile } = window.__TAURI__.fs;
+const { open: openExternal } = window.__TAURI__.shell;
 
 // DOM elements
 const markdownEditor = document.getElementById('markdown-editor');
@@ -22,9 +23,10 @@ const timerSound = document.getElementById('timer-sound');
 // Application state
 let isEditMode = true;
 let currentFilePath = null;
+let hasUnsavedChanges = false;
 let countdownInterval = null;
 let countdown = 0;
-let fonts = ['Lora', 'Inter', 'Fira Sans'];
+let fonts = ['Inter', 'Lora', 'Fira Sans'];
 let currentFontIndex = 0;
 
 // Random prompts
@@ -40,6 +42,7 @@ const prompts = [
 function init() {
   updateWordCount();
   setupEventListeners();
+  applySystemTheme();
 }
 
 // Setup event listeners
@@ -83,6 +86,9 @@ function renderMarkdown() {
     .replace(/^# (.*$)/gm, '<h1>$1</h1>')
     .replace(/^## (.*$)/gm, '<h2>$1</h2>')
     .replace(/^### (.*$)/gm, '<h3>$1</h3>')
+    .replace(/^#### (.*$)/gm, '<h4>$1</h4>')
+    .replace(/^##### (.*$)/gm, '<h5>$1</h5>')
+    .replace(/^###### (.*$)/gm, '<h6>$1</h6>')
     // Bold
     .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
     // Italic
@@ -93,11 +99,10 @@ function renderMarkdown() {
     .replace(/`([^`]+)`/g, '<code>$1</code>')
     // Lists
     .replace(/^\s*\*\s(.*$)/gm, '<li>$1</li>')
-    .replace(/(<li>.*<\/li>)/gm, '<ul>$1</ul>')
-    // Blockquotes
+    .replace(/(<li>.*<\/li>)/gm, '<ul>$1</ul>')// Blockquotes
     .replace(/^\>(.*$)/gm, '<blockquote>$1</blockquote>')
     // Links
-    .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>')
+    .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>')
     // Paragraphs
     .replace(/^\s*(\n)?(.+)/gm, function (m) {
       return /\<(\/)?(h1|h2|h3|ul|ol|li|blockquote|pre|code)/.test(m) ? m : '<p>' + m + '</p>';
@@ -105,8 +110,16 @@ function renderMarkdown() {
     // Clean up
     .replace(/<\/ul>\s?<ul>/g, '')
     .replace(/<\/p><p>/g, '</p>\n<p>');
-
   previewContainer.innerHTML = html;
+
+  // Add event listeners to links in the preview
+  const links = previewContainer.querySelectorAll('a');
+  links.forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      openExternal(link.getAttribute('href'));
+    });
+  });
 }
 
 // Update word count
@@ -115,6 +128,12 @@ function updateWordCount() {
   const wordArray = text === '' ? [] : text.split(/\s+/);
   const count = wordArray.length;
   wordCount.textContent = `${count} word${count === 1 ? '' : 's'}`;
+
+  // Set unsaved changes flag and update file name display
+  if (currentFilePath) {
+    hasUnsavedChanges = true;
+    updateFileNameDisplay();
+  }
 }
 
 // Handle keyboard shortcuts
@@ -157,7 +176,9 @@ async function openFile() {
       // Update editor with file content
       markdownEditor.value = content;
       currentFilePath = selected;
+      hasUnsavedChanges = false;
       updateWordCount();
+      updateFileNameDisplay();
 
       // Switch to edit mode
       if (!isEditMode) {
@@ -172,7 +193,15 @@ async function openFile() {
 // Save file dialog
 async function saveFile() {
   try {
-    // Show save dialog
+    // If file was already saved once, save directly to the same path
+    if (currentFilePath) {
+      await writeTextFile(currentFilePath, markdownEditor.value);
+      hasUnsavedChanges = false;
+      updateFileNameDisplay();
+      return;
+    }
+
+    // Show save dialog if first save
     const filePath = await save({
       filters: [{
         name: 'Markdown',
@@ -185,9 +214,27 @@ async function saveFile() {
       // Save content to file
       await writeTextFile(filePath, markdownEditor.value);
       currentFilePath = filePath;
+      hasUnsavedChanges = false;
+      updateFileNameDisplay();
     }
   } catch (err) {
     console.error('Error saving file:', err);
+  }
+}
+
+// Update file name display in status bar
+function updateFileNameDisplay() {
+  if (currentFilePath) {
+    const fileName = currentFilePath.split(/[\/\\]/).pop();
+    const fileNameElement = document.getElementById('file-name') || document.createElement('span');
+
+    if (!document.getElementById('file-name')) {
+      fileNameElement.id = 'file-name';
+      document.querySelector('.status-left').appendChild(fileNameElement);
+    }
+
+    // Add asterisk (*) if there are unsaved changes
+    fileNameElement.textContent = hasUnsavedChanges ? `${fileName} *` : fileName;
   }
 }
 
@@ -284,3 +331,15 @@ function cycleFont() {
 
 // Call init function when DOM is loaded
 document.addEventListener('DOMContentLoaded', init);
+
+// Apply system theme (dark or light)
+function applySystemTheme() {
+  // Check if system prefers dark mode
+  const prefersDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  document.documentElement.setAttribute('data-theme', prefersDarkMode ? 'dark' : 'light');
+
+  // Listen for changes in the system theme
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+    document.documentElement.setAttribute('data-theme', e.matches ? 'dark' : 'light');
+  });
+}

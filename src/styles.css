@@ -1,14 +1,16 @@
 @import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;700&family=Fira+Sans:wght@400;500;700&display=swap');
 
 :root {
-  --font-lora: 'Lora', serif;
   --font-inter: 'Inter', sans-serif;
+  --font-lora: 'Lora', serif;
   --font-fira: 'Fira Sans', sans-serif;
-  --color-bg: #f8f9fa;
-  --color-text: #2d3748;
-  --color-border: #e2e8f0;
-  --color-primary: #4a5568;
-  --color-accent: #3182ce;
+  /* One Light theme (default) */
+  --color-bg: #fafafa;
+  --color-text: #383a42;
+  --color-border: #d3d3d3;
+  --color-primary: #4078f2;
+  --color-accent: #a626a4;
+  --color-code-bg: #eaeaeb;
   --status-bar-height: 30px;
 }
 
@@ -55,7 +57,7 @@ body {
 }
 
 #markdown-editor {
-  font-family: var(--font-lora);
+  font-family: var(--font-inter);
   font-size: 1.1rem;
   line-height: 1.6;
   color: var(--color-text);
@@ -65,7 +67,7 @@ body {
 }
 
 #preview-container {
-  font-family: var(--font-lora);
+  font-family: var(--font-inter);
   line-height: 1.6;
   padding: 3rem;
 }
@@ -106,7 +108,7 @@ body {
 }
 
 #preview-container code {
-  background-color: #edf2f7;
+  background-color: var(--color-code-bg);
   padding: 0.2rem 0.4rem;
   border-radius: 3px;
   font-family: 'Courier New', monospace;
@@ -114,7 +116,7 @@ body {
 }
 
 #preview-container pre {
-  background-color: #edf2f7;
+  background-color: var(--color-code-bg);
   padding: 1rem;
   border-radius: 5px;
   overflow-x: auto;
@@ -131,8 +133,8 @@ body {
 }
 
 #status-bar {
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
   align-items: center;
   height: var(--status-bar-height);
   background-color: var(--color-primary);
@@ -142,10 +144,24 @@ body {
   border-top: 1px solid var(--color-border);
 }
 
+#file-name {
+  opacity: 0.8;
+  margin-left: 1rem;
+  font-style: italic;
+}
+
 .status-left,
 .status-right {
   display: flex;
   gap: 1.5rem;
+}
+
+.status-left {
+  justify-content: flex-start;
+}
+
+.status-right {
+  justify-content: flex-end;
 }
 
 .status-left span,
@@ -163,6 +179,12 @@ body {
 #word-count {
   opacity: 0.7;
   font-size: 0.85rem;
+  text-align: center;
+}
+
+.status-center {
+  text-align: center;
+  width: 100%;
 }
 
 .dialog {
@@ -229,23 +251,23 @@ body {
   background-color: var(--color-accent);
 }
 
-/* Dark mode */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --color-bg: #1a202c;
-    --color-text: #e2e8f0;
-    --color-border: #4a5568;
-    --color-primary: #2d3748;
-    --color-accent: #63b3ed;
-  }
+/* Dark mode - One Dark theme */
+html[data-theme="dark"] {
+  --color-bg: #282c34;
+  --color-text: #abb2bf;
+  --color-border: #4b5263;
+  --color-primary: #61afef;
+  --color-accent: #c678dd;
+  --color-code-bg: #2c313c;
+}
 
-  #preview-container code,
-  #preview-container pre {
-    background-color: #2d3748;
-  }
+html[data-theme="dark"] #preview-container code,
+html[data-theme="dark"] #preview-container pre {
+  background-color: var(--color-code-bg);
+  color: #abb2bf;
+}
 
-  #status-bar {
-    background-color: #2d3748;
-    color: #e2e8f0;
-  }
+html[data-theme="dark"] #status-bar {
+  background-color: #21252b;
+  color: #abb2bf;
 }
