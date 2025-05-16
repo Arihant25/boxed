@@ -12,7 +12,7 @@
 <body>
   <main class="container">
     <div id="editor-container">
-      <textarea id="markdown-editor" placeholder="Start typing your markdown here..."></textarea>
+      <textarea id="markdown-editor" placeholder="Just start writing and let the words flow..."></textarea>
       <div id="preview-container" class="hidden"></div>
     </div>
     <div id="status-bar">
@@ -25,11 +25,10 @@
       </div>
       <div class="status-right">
         <span id="prompt-toggle">Prompt</span>
-        <span id="font-toggle">Inter</span>
+        <span id="font-toggle">Signika</span>
       </div>
     </div>
   </main>
-
   <div id="timer-dialog" class="dialog hidden">
     <div class="dialog-content">
       <h2>Set Timer</h2>
@@ -41,6 +40,19 @@
       <div class="dialog-buttons">
         <button id="timer-cancel">Cancel</button>
         <button id="timer-ok">OK</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="prompt-dialog" class="dialog hidden">
+    <div class="dialog-content">
+      <h2>Choose Prompt Type</h2>
+      <div class="prompt-options">
+        <button id="fiction-option" class="prompt-option">Fiction</button>
+        <button id="nonfiction-option" class="prompt-option">Non-Fiction</button>
+      </div>
+      <div class="dialog-buttons">
+        <button id="prompt-cancel">Cancel</button>
       </div>
     </div>
   </div>

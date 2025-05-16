@@ -1,42 +1,34 @@
 # boxed | unbox your ideas
 
-A minimal Markdown text editor built with Tauri and vanilla web technologies.
+a brutally minimal markdown editor designed to help you focus on your writing.
 
-## Features
+featuring timers, and writing prompts, and nothing else.
 
-- **Simple Interface**: Clean, distraction-free writing environment
-- **Markdown Support**: Write in Markdown and preview rendered content
-- **File Operations**: Open and save .md files
-- **Timer**: Set writing timers with audio notification when time's up
-- **Writing Prompts**: Insert random writing prompts to get started
-- **Font Cycling**: Choose between beautiful fonts for your writing
+choose between four beautiful fonts (signika, merriweather, delius, ibm plex mono) for your writing.
 
-## Keyboard Shortcuts
+## keyboard shortcuts
 
-- `Ctrl+E`: Toggle between edit and preview modes
-- `Ctrl+O`: Open a Markdown file
-- `Ctrl+S`: Save current content as a Markdown file
+there are only three things you need to know:
 
-## Development
+- `ctrl+o`: open a markdown file
+- `ctrl+s`: save as a markdown file
+- `ctrl+e`: toggle between edit and preview modes
 
-This application is built with:
+## for developers
 
-- Tauri (Rust backend)
-- HTML, CSS, and JavaScript (Frontend)
-- No external dependencies
+this application is built with:
 
-To run the development version:
+- tauri (rust backend)
+- html, css, and javascript (frontend)
+
+to run the development version:
 
 ```
 npm run dev
 ```
 
-To build for production:
+to build for production:
 
 ```
 npm run tauri build
 ```
-
-## Recommended IDE Setup
-
-- [VS Code](https://code.visualstudio.com/) + [Tauri](https://marketplace.visualstudio.com/items?itemName=tauri-apps.tauri-vscode) + [rust-analyzer](https://marketplace.visualstudio.com/items?itemName=rust-lang.rust-analyzer)

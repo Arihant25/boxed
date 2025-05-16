@@ -1,0 +1,384 @@
+@import url('https://fonts.googleapis.com/css2?family=Delius&family=IBM+Plex+Mono:ital,wght@0,400;0,600;1,400&family=Merriweather:ital,wght@0,400;0,700;1,400&family=Signika:wght@300;400;600&display=swap');
+
+:root {
+    /* Fonts */
+    --font-signika: 'Signika', sans-serif;
+    --font-merriweather: 'Merriweather', serif;
+    --font-delius: 'Delius', cursive;
+    --font-ibm-plex-mono: 'IBM Plex Mono', monospace;
+
+    /* Light theme */
+    --color-bg: #fafafa;
+    --color-text: #383a42;
+    --color-border: #d3d3d3;
+    --color-primary: #9EC6F3;
+    --color-accent: #9FB3DF;
+    --color-code-bg: #eaeaeb;
+}
+
+/* Dark theme */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --color-bg: #282c34;
+        --color-text: #abb2bf;
+        --color-border: #4b5263;
+        --color-primary: #006A67;
+        --color-accent: #DDF6D2;
+        --color-code-bg: #2c313c;
+    }
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    transition: all 0.2s ease;
+}
+
+html,
+body {
+    height: 100%;
+    font-family: var(--font-signika);
+    line-height: 1.6;
+    color: var(--color-text);
+    background-color: var(--color-bg);
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+header,
+.features-cta,
+footer {
+    text-align: center;
+}
+
+header {
+    margin-bottom: 3rem;
+}
+
+.logo-container {
+    display: inline-flex;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+}
+
+.app-icon {
+    width: 50px;
+    height: auto;
+    transition: transform 0.3s ease;
+}
+
+.app-icon:hover {
+    transform: scale(1.05);
+}
+
+h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+h1 span {
+    color: var(--color-primary);
+}
+
+h2 {
+    font-size: 1.8rem;
+    margin: 2rem 0 1rem;
+    color: var(--color-primary);
+}
+
+.tagline {
+    font-size: 1.2rem;
+    opacity: 0.8;
+}
+
+section {
+    margin-bottom: 2.5rem;
+}
+
+.features {
+    background-color: rgba(0, 0, 0, 0.03);
+    padding: 1.5rem;
+    border-radius: 8px;
+    border-left: 4px solid var(--color-primary);
+}
+
+ul {
+    margin-left: 1.5rem;
+    margin-top: 0.5rem;
+}
+
+li {
+    margin-bottom: 0.5rem;
+}
+
+.shortcuts {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+/* Tech stack section styles */
+.techs {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+    justify-content: center;
+}
+
+/* Screenshots section styles */
+.screenshot-container {
+    display: flex;
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.screenshot {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+    min-width: 300px;
+}
+
+.screenshot-img {
+    width: 100%;
+    height: auto;
+    border-radius: 6px;
+    border: 1px solid var(--color-border);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.screenshot-img:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.screenshot-label {
+    margin-top: 0.75rem;
+    font-weight: 600;
+    color: var(--color-primary);
+}
+
+.tech {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 1.5rem 1rem;
+    background-color: rgba(0, 0, 0, 0.02);
+    border-radius: 8px;
+    transition: transform 0.2s, box-shadow 0.2s;
+    border: 1px solid var(--color-border);
+}
+
+.tech:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+}
+
+.tech-icon {
+    font-size: 2.5rem;
+    margin-bottom: 0.75rem;
+}
+
+.tech-name {
+    font-weight: 600;
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+    color: var(--color-primary);
+}
+
+.tech-desc {
+    font-size: 0.9rem;
+    opacity: 0.8;
+}
+
+.shortcut {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+kbd {
+    background-color: var(--color-code-bg);
+    border: 1px solid var(--color-border);
+    border-radius: 4px;
+    padding: 0.25rem 0.5rem;
+    font-family: var(--font-ibm-plex-mono);
+    box-shadow: 0 2px 0 var(--color-border);
+    min-width: 80px;
+    text-align: center;
+}
+
+.bubble {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 50%;
+    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.10), 0 1.5px 4px 0 rgba(0, 0, 0, 0.08);
+    padding: 0.5em;
+    margin: 0 0.1em;
+    transition: transform 0.2s;
+    border: 1.5px solid #eee;
+}
+
+.bubble:hover {
+    transform: translateY(-6px) scale(1.08);
+    box-shadow: 0 6px 24px 0 rgba(0, 0, 0, 0.18), 0 3px 8px 0 rgba(0, 0, 0, 0.12);
+}
+
+footer {
+    margin-top: auto;
+    padding-top: 2rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.cta-button {
+    display: inline-block;
+    background-color: var(--color-primary);
+    color: white;
+    text-decoration: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 4px;
+    font-weight: 600;
+    transition: background-color 0.2s, transform 0.2s;
+}
+
+.cta-button:hover {
+    background-color: var(--color-accent);
+    transform: translateY(-2px);
+}
+
+/* Responsive styles */
+@media (max-width: 600px) {
+    .container {
+        padding: 1.5rem;
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
+
+    .shortcut {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+
+    .screenshot {
+        min-width: 100%;
+        margin-bottom: 1.5rem;
+    }
+}
+
+/* Modal styles for screenshots */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.9);
+    backdrop-filter: blur(5px);
+}
+
+.modal-content {
+    margin: auto;
+    display: block;
+    max-width: 90%;
+    max-height: 90vh;
+    margin-top: 2%;
+    border-radius: 8px;
+}
+
+.modal-close {
+    position: absolute;
+    top: 15px;
+    right: 35px;
+    color: #f1f1f1;
+    font-size: 40px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.modal-close:hover,
+.modal-close:focus {
+    color: var(--color-primary);
+    text-decoration: none;
+    cursor: pointer;
+}
+
+@media only screen and (max-width: 700px) {
+    .modal-content {
+        max-width: 100%;
+    }
+}
+
+body,
+input,
+button,
+textarea,
+select,
+option {
+    text-transform: lowercase;
+}
+
+/* Emphasize the minimal aesthetic */
+.container {
+    letter-spacing: 0.03em;
+}
+
+/* Give headings a bit more character */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    letter-spacing: 0.05em;
+}
+
+/* Enhance the minimal vibe with subtle borders */
+.tech,
+.features,
+.shortcuts,
+footer {
+    border-radius: 4px;
+}
+
+/* Add a subtle hover effect to all interactive elements */
+a:hover,
+button:hover,
+.tech:hover,
+.screenshot-img:hover {
+    opacity: 0.9;
+}
+
+.header-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
